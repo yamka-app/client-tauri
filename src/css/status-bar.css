@@ -1,0 +1,56 @@
+/*
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+*/
+
+#status-bar {
+    width: 100%;
+    background: var(--bg-2);
+    -webkit-app-region: drag;
+
+    font-family: Montserrat;
+    font-size: 10pt;
+    color: var(--foreground-1);
+
+    display: flex;
+    align-items: center;
+}
+
+#status-bar span {
+    margin: 5px;
+    height: fit-content;
+}
+
+#status-bar button {
+    background: var(--bg-2);
+    border: none;
+    cursor: pointer;
+    margin: 0px;
+    height: 30px;
+    width: fit-content;
+    padding: 5px;
+    display: inline-block;
+
+    transition: background 0.1s ease;
+}
+#status-bar button:hover {
+    background: var(--bg-3);
+}
+
+#status-bar button img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(var(--topbar-btn-brightness));
+}
+#status-bar button:not(:nth-child(1)) { /* last three */
+    height: 26px;
+}
+#status-bar button:not(:nth-child(1)) img {
+    width: 16px;
+    height: 16px;
+}
+
+#status-bar .filler {
+    margin: auto;
+}

@@ -1,0 +1,32 @@
+/*
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+*/
+
+:root {
+    --red:          linear-gradient(90deg, #f31c00, #eb3700);
+    --red-color:    #f31c00;
+    --red-trans:    #f31c0090;
+    --yellow:       linear-gradient(90deg, #e2df0e, #bae718);
+    --yellow-trans: #e2df0e90;
+    --green:        linear-gradient(90deg, #2ac02a, #2ac075);
+    --green-trans:  #2ac02a90;
+    
+    --background:       #16171a;
+    --background-trans: #16171aaf;
+    --bg-2:             #1b1d21;
+    --bg-3:             #26282e;
+
+    --red-foreground:    #efefef;
+    --yellow-foreground: #242424;
+    --green-foreground:  #efefef;
+    --foreground:        #dbdbdb;
+    --foreground-1:      #a7a7a7;
+    --foreground-2:      #979797;
+
+    --shadow: 0 0 16px #111111ef;
+
+    --icon-brightness: 100%;
+    --topbar-btn-brightness: 70%;
+}

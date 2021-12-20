@@ -1,0 +1,71 @@
+{
+  "package": {
+    "productName": "yamka",
+    "version": "0.1.0"
+  },
+  "build": {
+    "distDir": "../dist",
+    "devPath": "http://localhost:9090",
+    "beforeDevCommand": "",
+    "beforeBuildCommand": ""
+  },
+  "tauri": {
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "app.yamka",
+      "icon": [
+        "icons/256x256.png",
+        "icons/128x128.png",
+        "icons/64x64.png",
+        "icons/32x32.png",
+        "icons/16x16.png",
+        "icons/icons.ico",
+        "icons/icons.icns"
+      ],
+      "resources": [],
+      "externalBin": [],
+      "copyright": "",
+      "category": "SocialNetworking",
+      "shortDescription": "An open and secure messenger",
+      "longDescription": "An open-source messenger featuring end-to-end encryption and optional self-hosting",
+      "deb": {
+        "depends": [],
+        "useBootstrapper": false
+      },
+      "macOS": {
+        "frameworks": [],
+        "minimumSystemVersion": "",
+        "useBootstrapper": false,
+        "exceptionDomain": "",
+        "signingIdentity": null,
+        "entitlements": null
+      },
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "updater": {
+      "active": false
+    },
+    "allowlist": {
+      "all": true
+    },
+    "windows": [
+      {
+        "title": "Yamka",
+        "width": 1280,
+        "height": 720,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true,
+        "decorations": false
+      }
+    ],
+    "security": {
+      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self' style-src: 'self' file:"
+    }
+  }
+}
