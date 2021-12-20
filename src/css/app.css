@@ -27,3 +27,21 @@ body {
     overflow: hidden;
     cursor: default;
 }
+
+input {
+    background: var(--background-trans);
+    border: 2px solid var(--bg-3);
+    color: var(--foreground);
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: border 0.1s ease;
+    margin: 5px 0 0 0;
+    width: stretch;
+    font-family: Montserrat;
+}
+input:hover {
+    border: 2px solid var(--foreground-2);
+}
+input:focus {
+    border: 2px solid var(--foreground-1);
+}

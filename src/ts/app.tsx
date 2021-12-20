@@ -5,7 +5,11 @@
 import React from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getCurrent } from "@tauri-apps/api/window";
+import { AnimateGroup } from "react-animation";
+
 import { setTheme } from "./theme";
+import Settings from "./settings";
+import * as config from "./config";
 
 import "../css/app.css";
 import "../css/status-bar.css";
@@ -14,7 +18,7 @@ import "../icons/minimize.png";
 import "../icons/maximize.png";
 import "../icons/close.png";
 
-setTheme("light");
+setTheme("dark");
 
 const win = getCurrent();
 
@@ -31,10 +35,12 @@ export class StatusBarButton extends React.Component {
 }
 
 export class StatusBar extends React.Component {
+    props: { openSettings?: () => any };
+
     render() {
         return (
-            <div id="status-bar">
-                <StatusBarButton image="icons/settings.png"/>
+            <div id="status-bar" data-tauri-drag-region>
+                <StatusBarButton image="icons/settings.png" click={this.props.openSettings}/>
                 <span>Yamka (alpha)</span>
                 <div className="filler"></div>
                 <StatusBarButton image="icons/minimize.png" click={() => win.minimize()}/>
@@ -47,12 +53,19 @@ export class StatusBar extends React.Component {
 }
 
 export class App extends React.Component {
+    state = { settingsOpen: false };
     render() {
         return (
-            <>
-                <StatusBar/>
+            <config.CfgContext.Provider value={config.config}>
+                <StatusBar openSettings={() => this.setState({...this.state, settingsOpen: true})}/>
+                {this.state.settingsOpen ? <Settings
+                    update={(key, val) => config.configSet(key, val)}
+                    transition={200}
+                    spec={config.spec}
+                    close={() => this.setState({...this.state, settingsOpen: false})}/>
+                    : null}
                 <h1>Not much here</h1>
-            </>
+            </config.CfgContext.Provider>
         );
     }
 }

@@ -1,0 +1,114 @@
+@keyframes slide-in {
+    0% { transform: translateX(-35vw); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes slide-out {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-35vw); }
+}
+
+.settings {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 35vw;
+    height: 100%;
+
+    background: var(--background);
+    display: flex;
+    flex-direction: row;
+
+    box-shadow: var(--shadow);
+}
+
+.settings-bar {
+    width: 30px;
+    background: var(--bg-2);
+}
+
+.settings-bar button {
+    width: 30px;
+    height: 30px;
+    background: var(--bg-2);
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: inline-block;
+    margin: 0;
+    border-right: 1px solid transparent;
+
+    transition: background 0.1s ease, border-right 0.1s ease;
+}
+.settings-bar button:hover {
+    background: var(--bg-3);
+}
+.settings-bar button.open {
+    border-right: 1px solid var(--foreground-2);
+}
+
+.settings-bar button img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(var(--topbar-btn-brightness));
+}
+
+.settings-list {
+    list-style-type: none;
+    margin: 15px;
+    padding: 0;
+    width: stretch;
+}
+.settings-list-title {
+    font-family: Montserrat;
+    font-size: 15pt;
+    margin-bottom: 30px;
+}
+
+.setting {
+    margin-bottom: 20px;
+    width: stretch;
+}
+
+.setting .title {
+    font-family: Montserrat;
+    font-size: 12pt;
+    display: flex;
+    align-items: center;
+}
+.setting .title abbr {
+    height: 18px;
+    width: 18px;
+}
+.setting .title img {
+    width: 18px;
+    height: 18px;
+    margin-left: 6px;
+}
+
+.setting.danger {
+    padding: 10px;
+    border: 1px solid #ff2c38;
+    border-radius: 5px;
+}
+
+.setting .add-item {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.1s ease;
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+}
+.setting .add-item:hover {
+    background: var(--bg-3);
+}
+.setting .add-item img {
+    width: 20px;
+    height: 20px;
+}
