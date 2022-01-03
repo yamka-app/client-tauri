@@ -13,7 +13,7 @@ export const CfgCtx = React.createContext({
 });
 
 // A React.Component that has convenient interfaces to the global config
-export class ConfigurableComponent extends React.Component {
+export class ConfigurableComponent<P = {}, S = {}, SS = any> extends React.Component<P, S, SS> {
     static contextType = CfgCtx;
     context!: React.ContextType<typeof CfgCtx>;
 
@@ -27,46 +27,43 @@ export class ConfigurableComponent extends React.Component {
 }
 
 // Stylish radio switch
-export class Radio extends React.Component {
-    props: {
-        name: string;
-        positions: {
-            name: string;
-            icon: string;
-            color: string;
-        }[];
-        toggled: (pos: string) => void;
-        value: string;
-        iconSize?: number;
-    }
+export class Radio extends React.Component<
+        { name: string,
+          positions: {
+              name: string;
+              icon: string;
+              color: string;
+          }[],
+          toggled: (pos: string) => void,
+          value: string,
+          iconSize?: number },
+        {}> {
 
     render() {
-        return (
-            <div className="radio">
-                {this.props.positions.map(x => {
-                    // @ts-expect-error
-                    import(`../icons/${x.icon}.png`);
-                    return <>
-                        <input type="radio"
-                            id={`${this.props.name}-${x.name}`}
-                            value={x.name}
-                            name={this.props.name}
-                            onChange={(ev) => {
-                                if(ev.target.checked)
-                                    this.props.toggled(x.name);
-                            }}
-                            checked={this.props.value === x.name}></input>
-                        <label htmlFor={`${this.props.name}-${x.name}`}
-                            // @ts-expect-error
-                            // "--active-color" is not a common property
-                            style={{"--active-color": x.color}}>
-                            <img src={`../icons/${x.icon}.png`}
-                                width={this.props.iconSize ?? 16}
-                                height={this.props.iconSize ?? 16} />
-                        </label>
-                    </>})}
-            </div>
-        );
+        return <div className="radio">
+            {this.props.positions.map(x => {
+                // @ts-expect-error
+                import(`../icons/${x.icon}.png`);
+                return <>
+                    <input type="radio"
+                        id={`${this.props.name}-${x.name}`}
+                        value={x.name}
+                        name={this.props.name}
+                        onChange={(ev) => {
+                            if(ev.target.checked)
+                                this.props.toggled(x.name);
+                        }}
+                        checked={this.props.value === x.name}></input>
+                    <label htmlFor={`${this.props.name}-${x.name}`}
+                        // @ts-expect-error
+                        // "--active-color" is not a common property
+                        style={{"--active-color": x.color}}>
+                        <img src={`../icons/${x.icon}.png`}
+                            width={this.props.iconSize ?? 16}
+                            height={this.props.iconSize ?? 16} />
+                    </label>
+                </>})}
+        </div>;
     }
 }
 
