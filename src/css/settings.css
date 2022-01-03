@@ -66,6 +66,9 @@
     font-size: 15pt;
     margin-bottom: 30px;
 }
+.settings-list-title:empty {
+    display: none;
+}
 
 .setting {
     margin-bottom: 20px;

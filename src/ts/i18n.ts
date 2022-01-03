@@ -2,6 +2,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import React from "react";
+
 export interface Lang {
     [key: string]: string | Lang;
 }
@@ -74,19 +76,26 @@ export async function setLang(name: string): Promise<void> {
     console.log("set language", name);
 }
 
-export function translate(key: string) {
-    return getPath(lang, key);
+export function translate(key: string, transformBreaks=false) {
+    var result = getPath(lang, key);
+    if(!transformBreaks)
+        return result;
+    // convert line breaks
+    const br = React.createElement("br");
+    return (result.split("\n") as any[])
+        .reduce((a, x) => [...a, x, br], [])
+        .slice(0, -1);
 }
 export function hasKey(key: string) {
-    return translate(key) !== undefined;
+    return translate(key) !== "";
 }
 
-function getPath(obj: Lang, path: string) {
+function getPath(obj: Lang, path: string): string {
     var [head, ...tail] = path.split(".");
     if(!(head in obj))
-        return undefined;
+        return "";
     const val = obj[head];
     if(tail.length === 0)
-        return val;
+        return val as string;
     return getPath(val as Lang, tail.join("."));
 }

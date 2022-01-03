@@ -14,7 +14,7 @@ export interface ConfigSpec {
 
         items: {
             [settingName: string]: {
-                type: "text" | "range" | "toggle" | "theme" | "color" | "text_list" | "lang_list";
+                type: "text" | "toggle" | "theme" | "text_list" | "lang_list" | "about";
                 default: any;
                 danger?: boolean;
                 hook?: (value: any) => void | Promise<void>;
@@ -59,6 +59,15 @@ export const spec: ConfigSpec = {
             "user": {
                 type: "text_list",
                 default: []
+            }
+        }
+    },
+    "about": {
+        icon: "info",
+        items: {
+            "about": {
+                type: "about",
+                default: "",
             }
         }
     }

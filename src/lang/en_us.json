@@ -22,5 +22,24 @@
                 "language": "Language"
             }
         }
+    },
+
+    "about": {
+        "about": {
+            "title": "About",
+            "contents": "Yamka is an open source messenger with end-to-end direct message encryption and optional self-hosting"
+        },
+        "people": {
+            "title": "People",
+            "contents": "Maintainer: portasynthinca3"
+        },
+        "ack": {
+            "title": "Acknowledgements",
+            "contents": "Icons by Icons8 at icons8.com"
+        },
+        "tech": {
+            "title": "Technologies",
+            "contents": "Desktop client: Tauri, React, TypeScript, Webpack, Babel, Rust\nBackend: Elixir, Cassandra\nAPI: AMOGUS"
+        }
     }
 }

@@ -4,7 +4,7 @@
 
 export async function setTheme(name: string) {
     // @ts-expect-error
-    const module = await import(`../themes/${name}.css`);
+    const module = await import(`../theme/${name}.css`);
     const style = module.default;
     document.getElementById("theme").innerHTML = style;
     console.log("loaded theme", name);

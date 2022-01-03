@@ -9,10 +9,12 @@ import * as config from "./config";
 
 import "../css/app.css";
 import "../css/settings.css";
+import "../css/about.css";
 import "../icons/danger.png";
 import "../icons/info.png";
 import "../icons/add_row.png";
 import "../icons/rm_row.png";
+import "../icons/logo.png";
 import { ConfigurableComponent, Radio, Tooltip } from "./util";
 import { hasKey, langInfo, translate } from "./i18n";
 
@@ -113,6 +115,20 @@ class Setting extends ConfigurableComponent<
                 ]}
                 value={value}
                 toggled={(val: string) => this.update(val, true)}/>;
+        }
+
+        if(spec.type === "about") {
+            return <div id="about">
+                <img className="dont-theme" src="../icons/logo.png" height="64" />
+                <h1>{translate("about.about.title")}</h1>
+                <p>{translate("about.about.contents", true)}</p>
+                <h1>{translate("about.people.title")}</h1>
+                <p>{translate("about.people.contents", true)}</p>
+                <h1>{translate("about.ack.title")}</h1>
+                <p>{translate("about.ack.contents", true)}</p>
+                <h1>{translate("about.tech.title")}</h1>
+                <p>{translate("about.tech.contents", true)}</p>
+            </div>
         }
     }
 

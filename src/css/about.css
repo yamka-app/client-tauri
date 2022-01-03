@@ -1,0 +1,23 @@
+#about h1 {
+    width: min-content;
+    margin: 0.4em 0 0.2em 0;
+
+    background-clip: text !important;
+    color: transparent;
+    background: var(--red);
+
+    font-family: Montserrat;
+    font-size: 20pt;
+}
+#about h1:nth-child(1) {
+    margin: 0 0 0.2em 0;
+}
+
+#about p {
+    margin: 0;
+
+    font-family: RobotoFlex;
+    font-size: 11pt;
+    letter-spacing: 0.2px;
+    font-weight: 600;
+}

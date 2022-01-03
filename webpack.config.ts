@@ -35,7 +35,7 @@ export default function(_, argv): webpack.Configuration[] {
 						use: ['style-loader', 'css-loader', 'postcss-loader']
 					},
 					{
-						test: /themes\/.*\.css$/i,
+						test: /theme\/.*\.css$/i,
 						exclude: /node_modules/,
 						loader: 'raw-loader',
 					},
