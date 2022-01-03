@@ -1,0 +1,28 @@
+{
+    "title": "English (US)",
+    "emoji": "🇺🇸",
+    "authors": "portasynthinca3",
+
+    "window": {
+        "title": "Yamka (alpha)"
+    },
+    "settings": {
+        "tab": {
+            "window": {
+                "title": "Window",
+                "blurIfUnfocused": "Blur if unfocused"
+            },
+            "connection": {
+                "title": "Connection",
+                "realm": "Main server",
+                "realm_danger": "Only change if you know what you're doing!",
+                "user": "Secondary servers",
+                "user_info": "Self-hosted groups will be fetched from these servers"
+            },
+            "language": {
+                "title": "Language",
+                "language": "Language"
+            }
+        }
+    }
+}

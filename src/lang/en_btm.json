@@ -1,0 +1,25 @@
+{
+    "title": "English (Bottom)",
+    "emoji": "🥺",
+    "authors": "portasynthinca3",
+
+    "settings": {
+        "tab": {
+            "window": {
+                "title": "That rectangular thingy",
+                "blurIfUnfocused": "Be shy"
+            },
+            "connection": {
+                "title": "Relationships",
+                "realm": "Main bf",
+                "realm_danger": "Don't let him down!",
+                "user": "Secondary bfs",
+                "user_info": "Provide things your main one doesn't."
+            },
+            "language": {
+                "title": "Languawge",
+                "language": "Please don't change me..."
+            }
+        }
+    }
+}

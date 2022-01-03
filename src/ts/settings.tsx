@@ -3,16 +3,20 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import React, { Children } from "react";
+import Twemoji from "react-twemoji";
 
 import * as config from "./config";
 
 import "../css/app.css";
 import "../css/settings.css";
 import "../icons/danger.png";
+import "../icons/info.png";
 import "../icons/add_row.png";
 import "../icons/rm_row.png";
+import { ConfigurableComponent, Radio } from "./common";
+import { hasKey, langInfo, translate } from "./i18n";
 
-class Bar extends React.Component {
+class Bar extends ConfigurableComponent {
     props: {
         tabs: { [name: string]: string };
         onClick: (tab: string) => any;
@@ -38,38 +42,38 @@ class Bar extends React.Component {
     }
 }
 
-class Setting extends React.Component {
+class Setting extends ConfigurableComponent {
     props: {
         name: string;
-        spec: config.ConfigSpec[string]["settings"][string];
+        spec: config.ConfigSpec[string]["items"][string];
         update: (value: any) => any;
     };
     state: {
-        value: any;
+        value: any
     };
 
-    static contextType = config.CfgContext;
     renderInput() {
         const spec = this.props.spec;
         const name = this.props.name;
-        const ctx = this.context;
+        const value = this.state?.value ?? this.getConfig(name);
 
         if(spec.type === "text") {
             return (
                 <input
-                    value={ctx[name]}
-                    onChange={(e) => this.update(e.target.value)}></input>
+                    value={value}
+                    onChange={(e) => this.update(e.target.value)}
+                    onBlur={(e) => this.update(e.target.value, true)}></input>
             );
         }
 
         if(spec.type === "text_list") {
             return (
                 <>
-                    {(ctx[name] as string[]).map((x, i, a) => 
+                    {(value as string[]).map((x, i, a) => 
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <button className="add-item"
                                     style={{ marginTop: "5px" }}
-                                    onClick={() => this.update(ctx[name].filter((_, idx) => idx !== i))
+                                    onClick={() => this.update(value.filter((_, idx) => idx !== i), true)
                                     }><img src="icons/rm_row.png"/></button>
                             <input
                                 key={i}
@@ -78,24 +82,55 @@ class Setting extends React.Component {
                                     const arr = a.slice();
                                     arr[i] = e.target.value;
                                     this.update(arr);
-                                }}></input>
+                                }}
+                                onBlur={(e) => this.update(a, true)}></input>
                         </div>
                     )}
                     <button className="add-item"
-                            onClick={() => this.update([...ctx[name], ""])
+                            onClick={() => this.update([...value, ""], true)
                             }><img src="icons/add_row.png"/></button>
                 </>
             );
         }
+
+        if(spec.type === "lang_list") {
+            return (
+                <ul className="lang-list">
+                    {langInfo.map(lang =>
+                        <LangSelector
+                            key={lang.name}
+                            title={lang.title}
+                            emoji={lang.emoji}
+                            selected={value === lang.name}
+                            onSelected={() => this.update(lang.name, true)}/>)}
+                </ul>
+            );
+        }
+
+        if(spec.type === "toggle") {
+            return (
+                <Radio name={this.props.name}
+                       positions={[
+                           { name: "off", icon: "cross", color: "#ff2c38" },
+                           { name: "on", icon: "checkmark", color: "#23cd51" }
+                       ]}
+                       value={value ? "on" : "off"}
+                       toggled={(val: string) => this.update(val === "on", true)}/>
+            )
+        }
     }
 
     render() {
+        const i18nKey = `settings.tab.${this.props.name}`;
         return (
             <li className={"setting" + (this.props.spec.danger ? " danger" : "")}>
                 <span className="title">
-                    {this.props.spec.title}
-                    {this.props.spec.danger ? <abbr title={this.props.spec.danger}>
+                    {translate(i18nKey)}
+                    {this.props.spec.danger ? <abbr title={translate(i18nKey + "_danger")}>
                         <img src="icons/danger.png"/>
+                    </abbr> : null}
+                    {hasKey(i18nKey + "_info") ? <abbr title={translate(i18nKey + "_info")}>
+                        <img src="icons/info.png"/>
                     </abbr> : null}
                 </span>
                 {this.renderInput()}
@@ -103,17 +138,38 @@ class Setting extends React.Component {
         );
     }
 
-    update(value: any) {
-        this.props.update(value);
+    update(value: any, final: boolean = false) {
+        if(final)
+            this.props.update(value);
         this.setState({ value });
     }
 }
 
-class List extends React.Component {
+class LangSelector extends React.Component {
+    props: {
+        title: string;
+        emoji: string;
+        selected: boolean;
+        onSelected: () => void;
+    }
+
+    render() {
+        return (
+            <li className={this.props.selected ? "selected" : ""} onClick={this.props.onSelected}>
+                <span className="align-emoji">
+                    <Twemoji options={{ className: "emoji" }} tag="twemoji">{this.props.emoji}</Twemoji>
+                    <span>{this.props.title}</span>
+                </span>
+            </li>
+        );
+    }
+}
+
+class List extends ConfigurableComponent {
     props: {
         name: string;
         title: string;
-        settings: config.ConfigSpec[string]["settings"];
+        settings: config.ConfigSpec[string]["items"];
         update: (name: string, value: any) => any;
     };
 
@@ -132,12 +188,11 @@ class List extends React.Component {
     }
 }
 
-export default class Settings extends React.Component {
+export default class Settings extends ConfigurableComponent {
     props: {
         spec: config.ConfigSpec;
         close: () => any;
         transition: number;
-        update: (name: string, value: any) => any
     };
     state: {
         slidingIn: boolean;
@@ -170,24 +225,24 @@ export default class Settings extends React.Component {
                     if(tab === "back")
                         this.close();
                     else
-                        this.setState({ ...this.state, tab });
+                        this.setState({ tab });
                 }}/>
                 <List
                     name={this.state.tab}
-                    title={tab.title}
-                    settings={tab.settings}
+                    title={translate(`settings.tab.${this.state.tab}.title`)}
+                    settings={tab.items}
                     update={(name, val) =>
-                        this.props.update(`${this.state.tab}.${name}`, val)}/>
+                        this.setConfig(`${this.state.tab}.${name}`, val)}/>
             </div>
         );
     }
 
     close() {
-        this.setState({ ...this.state, slidingIn: false });
+        this.setState({ slidingIn: false });
         setTimeout(this.props.close, this.props.transition);
     }
 
     componentDidMount() {
-        this.setState({ ...this.state, slidingIn: true });
+        this.setState({ slidingIn: true });
     }
 }

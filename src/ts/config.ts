@@ -3,18 +3,18 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import React from "react";
+import { setLang } from "./i18n";
 
 export interface ConfigSpec {
     [tabName: string]: {
-        title: string;
         icon: string;
 
-        settings: {
+        items: {
             [settingName: string]: {
-                title: string;
-                type: "text" | "range" | "toggle" | "color" | "text_list";
+                type: "text" | "range" | "toggle" | "color" | "text_list" | "lang_list";
                 default: any;
-                danger?: string;
+                danger?: boolean;
+                hook?: (value: any) => void | Promise<void>;
             }
         }
     }
@@ -22,28 +22,33 @@ export interface ConfigSpec {
 
 export const spec: ConfigSpec = {
     "window": {
-        title: "Window",
         icon: "window",
-        settings: {
+        items: {
             "blurIfUnfocused": {
-                title: "Blur if unfocused",
                 type: "toggle",
                 default: false
             }
         }
     },
+    "language": {
+        "icon": "lang",
+        items: {
+            "language": {
+                type: "lang_list",
+                default: navigator.language.toLowerCase().replace("-", "_"),
+                hook: async (lang: string) => await setLang(lang)
+            }
+        }
+    },
     "connection": {
-        title: "Connection",
         icon: "connection",
-        settings: {
+        items: {
             "realm": {
-                title: "Main server",
                 type: "text",
                 default: "api.yamka.app",
-                danger: "Only change if you know what you're doing"
+                danger: true
             },
             "user": {
-                title: "Secondary servers",
                 type: "text_list",
                 default: []
             }
@@ -54,17 +59,25 @@ export const spec: ConfigSpec = {
 export var config: { [name: string]: any } = {};
 // default values
 for(const tab in spec) {
-    for(const set in spec[tab].settings) {
-        const defaultVal = spec[tab].settings[set].default;
-        if(defaultVal !== undefined)
+    for(const set in spec[tab].items) {
+        const item = spec[tab].items[set];
+        const defaultVal = item.default;
+        if(defaultVal !== undefined) {
             config[`${tab}.${set}`] = defaultVal;
+            const hook = item.hook;
+            if(hook) hook(defaultVal);
+        }
     }
 }
-console.log("init'd config", config);
+console.log("init'd config with default values", config);
 
-export function configSet(setting: string, value?: any) {
+export async function configSet(setting: string, value?: any) {
     config[setting] = value;
+
+    // run hook
+    const [tab, set] = setting.split(".");
+    const hook = spec[tab].items[set].hook;
+    if(hook) await hook(value);
+
     console.log("updated setting", setting, value);
 }
-
-export const CfgContext = React.createContext({});

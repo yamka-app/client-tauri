@@ -5,11 +5,13 @@
 import React from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getCurrent } from "@tauri-apps/api/window";
-import { AnimateGroup } from "react-animation";
+import Twemoji from "react-twemoji";
 
 import { setTheme } from "./theme";
 import Settings from "./settings";
 import * as config from "./config";
+import { CfgCtx } from "./common";
+import { translate } from "./i18n";
 
 import "../css/app.css";
 import "../css/status-bar.css";
@@ -53,19 +55,33 @@ export class StatusBar extends React.Component {
 }
 
 export class App extends React.Component {
-    state = { settingsOpen: false };
+    state = {
+        settingsOpen: false,
+        config: {
+            value: config.config,
+            set: async (key: string, val: any) => {
+                await config.configSet(key, val);
+                this.setState({
+                    config: {
+                        ...this.state.config,
+                        value: config.config
+                    }
+                });
+            }
+        }
+    };
+
     render() {
         return (
-            <config.CfgContext.Provider value={config.config}>
+            <CfgCtx.Provider value={this.state.config}>
                 <StatusBar openSettings={() => this.setState({...this.state, settingsOpen: true})}/>
                 {this.state.settingsOpen ? <Settings
-                    update={(key, val) => config.configSet(key, val)}
                     transition={200}
                     spec={config.spec}
                     close={() => this.setState({...this.state, settingsOpen: false})}/>
                     : null}
                 <h1>Not much here</h1>
-            </config.CfgContext.Provider>
+            </CfgCtx.Provider>
         );
     }
 }

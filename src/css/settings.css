@@ -92,6 +92,9 @@
     padding: 10px;
     border: 1px solid #ff2c38;
     border-radius: 5px;
+    background: repeating-linear-gradient(-45deg,
+        #FF2C3820 0px, #FF2C3820 5px,
+        #FF2C3840 5px, #FF2C3840 10px);
 }
 
 .setting .add-item {
@@ -104,6 +107,7 @@
     width: 28px;
     height: 28px;
     padding: 4px;
+    margin-right: 4px;
 }
 .setting .add-item:hover {
     background: var(--bg-3);
@@ -111,4 +115,44 @@
 .setting .add-item img {
     width: 20px;
     height: 20px;
+}
+
+.lang-list {
+    list-style-type: none;
+    width: stretch;
+    padding: 0;
+}
+
+.lang-list li {
+    background: var(--bg-2);
+    border-radius: 5px;
+    width: stretch;
+    margin-top: 10px;
+    padding: 10px;
+    cursor: pointer;
+
+    font-family: RobotoFlex;
+    font-size: 11pt;
+    letter-spacing: 0.2px;
+    font-weight: 600;
+
+    transition: background 0.1s ease;
+}
+.lang-list li.selected {
+    background: var(--bg-3);
+}
+
+.lang-list li img.emoji {
+    height: 2em;
+    margin-right: 6px;
+}
+.lang-list li twemoji {
+    height: 2em;
+}
+.lang-list li > span {
+    display: flex;
+    align-items: center;
+}
+.lang-list li > span > span {
+    transform: translateY(3px);
 }

@@ -1,0 +1,34 @@
+.radio {
+    background: var(--background-trans);
+    border: 2px solid var(--bg-3);
+    border-radius: 5px;
+    margin: 5px 0 0 0;
+    padding: 5px 10px;
+    width: fit-content;
+    height: fit-content;
+
+    transition: border 0.1s ease;
+}
+
+.radio input {
+    display: none;
+}
+
+.radio input + label {
+    display: inline-block;
+    width: min-content;
+    height: min-content;
+    padding: 5px 6px 0 5px;
+    border-radius: 5px;
+    background: transparent;
+    cursor: pointer;
+
+    transition: background 0.1s ease;
+}
+.radio input + label:not(:nth-last-child(1)) {
+    margin-right: 10px;
+}
+
+.radio input:checked + label {
+    background: var(--active-color, var(--bg-3));
+}
