@@ -20,6 +20,23 @@
     src: url(../fonts/JetBrainsMono-Regular.woff2);
 }
 
+*::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+    background: var(--bg-2);
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+*::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:active {
+    background: var(--bg-3);
+}
+
 body {
     background: var(--background);
     color: var(--foreground);
