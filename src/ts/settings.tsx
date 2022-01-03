@@ -13,7 +13,7 @@ import "../icons/danger.png";
 import "../icons/info.png";
 import "../icons/add_row.png";
 import "../icons/rm_row.png";
-import { ConfigurableComponent, Radio } from "./common";
+import { ConfigurableComponent, Radio, Tooltip } from "./util";
 import { hasKey, langInfo, translate } from "./i18n";
 
 class Bar extends ConfigurableComponent {
@@ -126,12 +126,12 @@ class Setting extends ConfigurableComponent {
             <li className={"setting" + (this.props.spec.danger ? " danger" : "")}>
                 <span className="title">
                     {translate(i18nKey)}
-                    {this.props.spec.danger ? <abbr title={translate(i18nKey + "_danger")}>
+                    {this.props.spec.danger ? <Tooltip text={translate(i18nKey + "_danger")}>
                         <img src="icons/danger.png"/>
-                    </abbr> : null}
-                    {hasKey(i18nKey + "_info") ? <abbr title={translate(i18nKey + "_info")}>
+                    </Tooltip> : null}
+                    {hasKey(i18nKey + "_info") ? <Tooltip text={translate(i18nKey + "_info")}>
                         <img src="icons/info.png"/>
-                    </abbr> : null}
+                    </Tooltip> : null}
                 </span>
                 {this.renderInput()}
             </li>

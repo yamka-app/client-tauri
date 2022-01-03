@@ -2,6 +2,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+// TODO: Fix prop and state defs in component classes. Ugly!
+
 import React from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getCurrent } from "@tauri-apps/api/window";
@@ -10,7 +12,7 @@ import Twemoji from "react-twemoji";
 import { setTheme } from "./theme";
 import Settings from "./settings";
 import * as config from "./config";
-import { CfgCtx } from "./common";
+import { CfgCtx } from "./util";
 import { translate } from "./i18n";
 
 import "../css/app.css";

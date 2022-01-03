@@ -1,0 +1,24 @@
+.tooltip-wrapper {
+    /* display: inline-block; */
+    height: 18px;
+}
+
+.tooltip-bubble {
+    z-index: 5000;
+    position: absolute;
+    pointer-events: none;
+    width: fit-content;
+    height: min-content;
+
+    background: var(--background);
+    padding: 5px;
+    border-radius: 5px;
+    opacity: 0;
+    font-family: RobotoFlex;
+    font-weight: 600;
+    font-size: 10pt;
+    box-shadow: var(--shadow);
+
+    transition: top 0.1s ease, bottom 0.1s ease, left 0.1s ease, right 0.1s ease,
+                opacity 0.1s ease;
+}
