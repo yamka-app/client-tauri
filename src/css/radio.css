@@ -26,11 +26,11 @@
 
     transition: background 0.1s ease, border 0.1s ease;
 }
-.radio input + label:not(:nth-last-child(1)) {
+.radio label:not(:nth-last-child(1)) {
     margin-right: 5px;
 }
 
-.radio input + label:hover {
+.radio label:hover {
     border: 1px solid var(--active-color, var(--bg-3));
 }
 .radio input:checked + label {

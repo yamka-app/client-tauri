@@ -104,6 +104,16 @@ class Setting extends ConfigurableComponent<
                 value={value ? "on" : "off"}
                 toggled={(val: string) => this.update(val === "on", true)}/>;
         }
+
+        if(spec.type === "theme") {
+            return <Radio name={this.props.name}
+                positions={[
+                    { name: "dark", icon: "dark" },
+                    { name: "light", icon: "light" }
+                ]}
+                value={value}
+                toggled={(val: string) => this.update(val, true)}/>;
+        }
     }
 
     render() {
@@ -112,7 +122,7 @@ class Setting extends ConfigurableComponent<
             <span className="title">
                 {translate(i18nKey)}
                 {this.props.spec.danger ? <Tooltip text={translate(i18nKey + "_danger")}>
-                    <img src="icons/danger.png"/>
+                    <img src="icons/danger.png" className="dont-theme"/>
                 </Tooltip> : null}
                 {hasKey(i18nKey + "_info") ? <Tooltip text={translate(i18nKey + "_info")}>
                     <img src="icons/info.png"/>

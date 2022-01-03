@@ -2,14 +2,10 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-export function setTheme(name: string, custom = false) {
-    if(custom) {
-        // document.getElementById("custom-theme").setAttribute("href", `file://${name}`);
-        throw new Error("custom themes are not yet implemented");
-        return;
-    }
-
-    document.getElementById("custom-theme").setAttribute("href", "");
+export async function setTheme(name: string) {
     // @ts-expect-error
-    import(`../css/themes/${name}.css`);
+    const module = await import(`../themes/${name}.css`);
+    const style = module.default;
+    document.getElementById("theme").innerHTML = style;
+    console.log("loaded theme", name);
 }

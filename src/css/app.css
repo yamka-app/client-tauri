@@ -48,3 +48,7 @@ input {
 input:focus {
     border: 2px solid var(--bg-2);
 }
+
+img:not(.dont-theme):not(.emoji) {
+    filter: brightness(var(--icon-brightness));
+}

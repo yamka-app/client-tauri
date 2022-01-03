@@ -5,13 +5,10 @@
 import React from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getCurrent } from "@tauri-apps/api/window";
-import Twemoji from "react-twemoji";
 
-import { setTheme } from "./theme";
 import Settings from "./settings";
 import * as config from "./config";
 import { CfgCtx } from "./util";
-import { translate } from "./i18n";
 
 import "../css/app.css";
 import "../css/status-bar.css";
@@ -19,8 +16,6 @@ import "../icons/settings.png";
 import "../icons/minimize.png";
 import "../icons/maximize.png";
 import "../icons/close.png";
-
-setTheme("dark");
 
 const win = getCurrent();
 
@@ -54,6 +49,7 @@ export class StatusBar extends React.Component<
 
 interface AppState {
     settingsOpen: boolean,
+    
     config: {
         value: any,
         set: (key: string, val: any) => Promise<void>
@@ -84,7 +80,8 @@ export class App extends React.Component<{}, AppState> {
                 spec={config.spec}
                 close={() => this.setState({...this.state, settingsOpen: false})}/>
                 : null}
-            <h1>Not much here</h1>
+            
+            
         </CfgCtx.Provider>;
     }
 

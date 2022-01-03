@@ -32,7 +32,7 @@ export class Radio extends React.Component<
           positions: {
               name: string;
               icon: string;
-              color: string;
+              color?: string;
           }[],
           toggled: (pos: string) => void,
           value: string,

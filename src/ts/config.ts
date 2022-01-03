@@ -6,6 +6,7 @@ import { readTextFile, writeFile } from "@tauri-apps/api/fs";
 import { appDir, sep as pathSep, BaseDirectory } from "@tauri-apps/api/path";
 
 import { setLang } from "./i18n";
+import { setTheme } from "./theme";
 
 export interface ConfigSpec {
     [tabName: string]: {
@@ -13,7 +14,7 @@ export interface ConfigSpec {
 
         items: {
             [settingName: string]: {
-                type: "text" | "range" | "toggle" | "color" | "text_list" | "lang_list";
+                type: "text" | "range" | "toggle" | "theme" | "color" | "text_list" | "lang_list";
                 default: any;
                 danger?: boolean;
                 hook?: (value: any) => void | Promise<void>;
@@ -29,6 +30,11 @@ export const spec: ConfigSpec = {
             "blurIfUnfocused": {
                 type: "toggle",
                 default: false
+            },
+            "theme": {
+                type: "theme",
+                default: "dark",
+                hook: async (theme: string) => await setTheme(theme)
             }
         }
     },
@@ -59,19 +65,6 @@ export const spec: ConfigSpec = {
 };
 
 export var config: { [name: string]: any } = {};
-// default values
-for(const tab in spec) {
-    for(const set in spec[tab].items) {
-        const item = spec[tab].items[set];
-        const defaultVal = item.default;
-        if(defaultVal !== undefined) {
-            config[`${tab}.${set}`] = defaultVal;
-            const hook = item.hook;
-            if(hook) hook(defaultVal);
-        }
-    }
-}
-console.log("init'd config with default values", config);
 
 export async function set(setting: string, value?: any) {
     config[setting] = value;
@@ -100,7 +93,19 @@ export async function load() {
         runHooks();
         console.log("loaded config");
     } catch(ex) {
-        console.warn("failed to load config");
+        console.warn("failed to load config, using default values");
+        // set default values
+        for(const tab in spec) {
+            for(const set in spec[tab].items) {
+                const item = spec[tab].items[set];
+                const defaultVal = item.default;
+                if(defaultVal !== undefined) {
+                    config[`${tab}.${set}`] = defaultVal;
+                    const hook = item.hook;
+                    if(hook) hook(defaultVal);
+                }
+            }
+        }
     }
 }
 

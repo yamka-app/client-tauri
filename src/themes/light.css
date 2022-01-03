@@ -13,10 +13,10 @@
     --green:        linear-gradient(90deg, #2ac02a, #2ac075);
     --green-trans:  #2ac02a90;
     
-    --background:      #e4e4d2;
-    --background-trans:#e4e4d2af;
-    --bg-2:            #f1f1e3;
-    --bg-3:            #fffdee;
+    --background:      #e4e4e4;
+    --background-trans:#e4e4e4af;
+    --bg-2:            #f1f1f1;
+    --bg-3:            #ffffff;
     
     --red-foreground:    #efefef;
     --yellow-foreground: #242424;
