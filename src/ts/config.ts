@@ -2,7 +2,9 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-import React from "react";
+import { readTextFile, writeFile } from "@tauri-apps/api/fs";
+import { appDir, sep as pathSep, BaseDirectory } from "@tauri-apps/api/path";
+
 import { setLang } from "./i18n";
 
 export interface ConfigSpec {
@@ -71,7 +73,7 @@ for(const tab in spec) {
 }
 console.log("init'd config with default values", config);
 
-export async function configSet(setting: string, value?: any) {
+export async function set(setting: string, value?: any) {
     config[setting] = value;
 
     // run hook
@@ -80,4 +82,36 @@ export async function configSet(setting: string, value?: any) {
     if(hook) await hook(value);
 
     console.log("updated setting", setting, value);
+    save();
+}
+
+export async function save() {
+    writeFile({
+        contents: JSON.stringify(config),
+        path: "config.json"
+    }, { dir: BaseDirectory.Config });
+    console.log("saved config");
+}
+
+export async function load() {
+    try {
+        const json = await readTextFile("config.json", { dir: BaseDirectory.Config });
+        config = JSON.parse(json);
+        runHooks();
+        console.log("loaded config");
+    } catch(ex) {
+        console.warn("failed to load config");
+    }
+}
+
+function runHooks() {
+    for(const tab in spec) {
+        for(const set in spec[tab].items) {
+            const item = spec[tab].items[set];
+            const hook = item.hook;
+            const key = `${tab}.${set}`;
+            if(config[key] !== undefined && hook)
+                hook(config[key]);
+        }
+    }
 }

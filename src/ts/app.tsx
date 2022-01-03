@@ -65,7 +65,7 @@ export class App extends React.Component<{}, AppState> {
         config: {
             value: config.config,
             set: async (key: string, val: any) => {
-                await config.configSet(key, val);
+                await config.set(key, val);
                 this.setState({
                     config: {
                         ...this.state.config,
@@ -86,5 +86,17 @@ export class App extends React.Component<{}, AppState> {
                 : null}
             <h1>Not much here</h1>
         </CfgCtx.Provider>;
+    }
+
+    componentDidMount() {
+        // load config
+        config.load().then(() => {
+            this.setState({
+                config: {
+                    ...this.state.config,
+                    value: config.config
+                }
+            });
+        });
     }
 }
